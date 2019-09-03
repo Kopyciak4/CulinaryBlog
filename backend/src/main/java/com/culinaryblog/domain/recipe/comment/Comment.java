@@ -25,7 +25,7 @@ public class Comment implements Serializable {
     private int recipeId;
     @NotNull
     @Size(min=1, max=16)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userLogin;
 
 

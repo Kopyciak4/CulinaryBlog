@@ -16,7 +16,7 @@ function register() {
         url : 'http://localhost:8080/user/register',
         type : "POST",
         data : JSON.stringify({login: login, password: password}),
-        contentType: 'application/json'
+        contentType: 'application/json' 
      }).done(()=>{
          
      })

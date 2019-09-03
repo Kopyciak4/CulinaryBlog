@@ -2,9 +2,15 @@ package com.culinaryblog.web.recipe;
 
 import com.culinaryblog.domain.recipe.Recipe;
 import com.culinaryblog.domain.recipe.RecipeSearchCriteria;
+import com.culinaryblog.services.file.FileService;
 import com.culinaryblog.services.recipe.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,6 +20,7 @@ import java.util.List;
 public class RecipeController {
 
     private RecipeService recipeService;
+    private FileService fileService;
 
     @Autowired
     public void setRecipeService (RecipeService recipeService) {
@@ -21,8 +28,9 @@ public class RecipeController {
     }
 
     @PostMapping()
-    public void createRecipe(@Valid @RequestBody Recipe recipe){
-        recipeService.createRecipe(recipe);
+    public void createRecipe(@Valid @RequestPart Recipe recipe, @RequestPart("photo") MultipartFile photo){
+        System.out.println(photo);
+        recipeService.createRecipe(recipe, photo);
     }
 
     @PostMapping("/search")
@@ -52,6 +60,14 @@ public class RecipeController {
     public List<Recipe> getLastAddedRecipes(@RequestParam("quantity") int quantity) {
         return this.recipeService.getLastAddedRecipes(quantity);
     }
+
+    @PostMapping(value = "/photos", produces="application/zip")
+    public ResponseEntity<byte[]> getPhotos(@RequestBody List<String> recipePhotoList){
+        System.out.println(this.recipeService.getPhotosForPaths(recipePhotoList).length);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=photos.zip").body(this.recipeService.getPhotosForPaths(recipePhotoList));
+    }
+
 
 
 }

@@ -42,6 +42,9 @@ public class Recipe implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date insertionDate;
+    @NotNull
+    @Column(nullable = false)
+    private String userLogin;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "dish_id")
@@ -143,5 +146,13 @@ public class Recipe implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 }

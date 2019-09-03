@@ -4,9 +4,14 @@ import com.culinaryblog.DAO.recipe.RecipeRepository;
 import com.culinaryblog.domain.recipe.dish.DishType;
 import com.culinaryblog.domain.recipe.Recipe;
 import com.culinaryblog.domain.recipe.RecipeSearchCriteria;
+import com.culinaryblog.services.file.FileService;
+import com.culinaryblog.services.file.FileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -15,16 +20,20 @@ import java.util.List;
 public class RecipeServiceImpl implements RecipeService {
 
     private RecipeRepository recipeRepository;
+    private FileService fileService;
 
     @Autowired
-    public RecipeServiceImpl (RecipeRepository recipeRepository) {
+    public RecipeServiceImpl (RecipeRepository recipeRepository, FileService fileService) {
         this. recipeRepository = recipeRepository;
+        this.fileService = fileService;
     }
 
     @Override
-    public void createRecipe(Recipe recipe){
+    public void createRecipe(Recipe recipe,  MultipartFile photo){
         recipe.setInsertionDate(new Date());
-        recipeRepository.save(recipe);
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        savedRecipe.setPhoto(fileService.save(photo, savedRecipe.getId()));
+        recipeRepository.save(savedRecipe);
     }
 
     @Override
@@ -69,6 +78,12 @@ public class RecipeServiceImpl implements RecipeService {
         System.out.println(quantity);
         return this.recipeRepository.findByOrderByInsertionDateDesc(PageRequest.of(0, quantity));
     }
+
+    @Override
+    public byte[] getPhotosForPaths(@RequestBody List<String> recipePhotoList) {
+        return this.fileService.loadPhotosByPaths(recipePhotoList);
+    }
+
 
 
 
