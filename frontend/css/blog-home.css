@@ -31,6 +31,9 @@ body {
   text-align: center;
 
 }
+.navbar-brand {
+  color: white !important;
+}
 
 .authorization-input  {
   background-color: #f6f6f6;
@@ -60,4 +63,12 @@ body {
 
 .authorization-input:placeholder {
   color: #cccccc;
+}
+
+.category-type {
+  cursor: pointer;
+}
+
+.search-button {
+  margin-top: 5%;
 }

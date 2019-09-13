@@ -59,7 +59,6 @@ public class FileServiceImpl implements FileService {
                 fileInputStream.close();
                 zipOutputStream.closeEntry();
             }
-            return byteArrayOutputStream.toByteArray();
         } catch(IOException ex) {
             logger.error("something went wrong with file loading", ex);
         } finally {
@@ -71,6 +70,7 @@ public class FileServiceImpl implements FileService {
                 }
                 IOUtils.closeQuietly(bufferedOutputStream);
                 IOUtils.closeQuietly(byteArrayOutputStream);
+                return byteArrayOutputStream.toByteArray();
             } catch (IOException ex2) {
                 logger.error("something went wrong with file loading", ex2);
             }

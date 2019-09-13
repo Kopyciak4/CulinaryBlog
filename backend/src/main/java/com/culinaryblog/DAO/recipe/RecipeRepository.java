@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer>, RecipeRepositoryCustom {
 
-    List<Recipe> findByDishTypeContainingOrDishMainIngredientContainingOrDishCountryContainingOrDishNameContaining(DishType type, String ingredient, String country, String name);
+    List<Recipe> findByDishTypeContainingOrDishMainIngredientContainingOrDishCountryContainingOrDishNameContainingOrUserLoginContaining(DishType type, String ingredient, String country, String name, String userLogin);
 
-    List<Recipe> findByDishMainIngredientContainingOrDishCountryContainingOrDishNameContaining(String ingredient, String country, String name);
+    List<Recipe> findByDishMainIngredientContainingOrDishCountryContainingOrDishNameContainingOrUserLoginContaining(String ingredient, String country, String name, String userLogin);
 
     List<Recipe> findByOrderByInsertionDateDesc(Pageable pageable);
 

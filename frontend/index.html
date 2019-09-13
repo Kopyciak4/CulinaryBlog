@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Blog Home - Start Bootstrap Template</title>
+  <title>Janush in the kitchen</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <a class="navbar-brand">Janush chef</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,9 +33,6 @@
             <a class="nav-link" onclick="returnHome()">Home
               <span class="sr-only">(current)</span>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" onclick="openRegisterPage()">Register</a>
@@ -94,17 +91,17 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="skill-level">Skill Level</label>
-                  <input type="number" class="form-control" id="skill-level" name="level">
+                  <input type="number" class="form-control" id="skill-level" name="level" min="0" max="5" onkeypress="checkNumberRange(event, this)">
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="preparation-time">Time</label>
-                  <input type="number" class="form-control" id="preparation-time" name="preparationTime">
+                  <label for="preparation-time">Preparation Time </label>
+                  <input type="number" class="form-control" id="preparation-time" name="preparationTime" placeholder="in minutes">
                 </div>
               </div>
               <div class="form-row">
                   <div class="form-group col-md-4">
                       <label for="ingredients">Ingredients</label>
-                      <textarea class="form-control" id="ingredients" placeholder="- measure unit ingredient" name="ingredients"></textarea>
+                      <textarea class="form-control" id="ingredients" placeholder="ingredient measure unit," name="ingredients"></textarea>
                   </div>
                   <div class="form-group col-md-4">
                       <label for="preparation">Preparation</label>
@@ -164,26 +161,13 @@
       <div id="recipes-list-page">
 
         <!-- Blog Entries Column -->
-      <div class="col-md-8"> 
+      <div class="col-md-8 blog-widgets"> 
 
-          <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
-          </h1>
-
+          <h1 class="my-4">Culinary Blog</h1>
           <!-- Blog Post -->
           <div id="recipe-posts"></div>
    
-          <!-- Pagination -->
-          <ul class="pagination justify-content-center mb-4">
-            <li class="page-item">
-              <a class="page-link" href="#">&larr; Older</a>
-            </li>
-            <li class="page-item disabled">
-              <a class="page-link" href="#">Newer &rarr;</a>
-            </li>
-          </ul>
-  
-        </div>
+      </div>
   
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
@@ -191,16 +175,45 @@
           <!-- Search Widget -->
           <div class="card my-4">
             <h5 class="card-header">Search</h5>
-            <div class="card-body">
+            <div class="card-body" id="search-box">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
+                <input id="simple-search-input" type="text" class="form-control" placeholder="Search for..." oninput="simpleSearch()"/>
               </div>
+              <button class="search-button btn btn-secondary" type="button" onclick="openAdvancedSearch()">Advanced</button>
             </div>
-          </div>
-  
+            
+            <form class="card-body form" id="advanced-search-box">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input id="min-preparation-time-search" type="number" class="form-control" placeholder="Min. preparation time in minutes" name="minPreparationTime"/>
+                    <input id="max-preparation-time-search" type="number" class="form-control" placeholder="Max. preparation time in minutes" name="maxPreparationTime"/>
+                    <input id="skill-level-search" type="number" class="form-control" placeholder="Difficulty (0-5)"  min="0" max="5" onkeypress="checkNumberRange(event, this)" name="level"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input id="country-search" class="form-control" placeholder="Country" name="country"/>
+                    <input id="main-ingredient-search" class="form-control" placeholder="Main ingredient" name="mainIngredient"/>
+                    <select class="form-control" id="type-of-dish-search" name="dishType">
+                        <option selected>DINNER</option>
+                        <option>SUPPER</option>
+                        <option>BREAKFAST</option>
+                        <option>SNACK</option>  
+                        <option>SALAD</option>
+                        <option>SOUP</option>
+                        <option>DESERT</option>
+                        <option>PRESERVES</option>
+                        <option>VEGE</option>
+                        <option>LIGHT</option>
+                    </select>
+                </div>
+                  
+              </div>
+              <button class="search-button btn btn-secondary" type="button" onclick="runAdvancedSearch()">Search</button>
+              <button class="close-search-button btn btn-secondary" type="button" onclick="openBasicSearch()">Basic</button>
+            </form>
+          </div> 
+
           <!-- Categories Widget -->
           <div class="card my-4">
             <h5 class="card-header">Categories</h5>
@@ -209,46 +222,55 @@
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">Web Design</a>
+                      <a class="category-type" onclick="sortByCategory('DINNER')">DINNER</a>
                     </li>
                     <li>
-                      <a href="#">HTML</a>
+                      <a class="category-type" onclick="sortByCategory('SUPPER')">SUPPER</a>
                     </li>
                     <li>
-                      <a href="#">Freebies</a>
+                      <a class="category-type" onclick="sortByCategory('BREAKFAST')">BREAKFAST</a>
+                    </li>
+                    <li>
+                      <a class="category-type" onclick="sortByCategory('SNACK')">SNACK</a>
+                    </li>
+                    <li>
+                      <a class="category-type" onclick="sortByCategory('SALAD')">SALAD</a>
                     </li>
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">JavaScript</a>
+                      <a class="category-type" onclick="sortByCategory('SOUP')">SOUP</a>
                     </li>
                     <li>
-                      <a href="#">CSS</a>
+                      <a class="category-type" onclick="sortByCategory('DESSERT')">DESSERT</a>
                     </li>
                     <li>
-                      <a href="#">Tutorials</a>
+                      <a class="category-type" onclick="sortByCategory('PRESERVES')">PRESERVES</a>
+                    </li>
+                    <li>
+                      <a class="category-type" onclick="sortByCategory('VEGE')">VEGE</a>
+                    </li>
+                    <li>
+                      <a class="category-type" onclick="sortByCategory('LIGHT')">LIGHT</a>
+                    </li>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-  
-          <!-- Side Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-            </div>
-          </div>
-  
         </div>
 
       </div>
       <!-- /.Recipes list page -->
-      
+
+      <!--Post Page-->
+      <div id="post-page">
+       
+      </div>
+
 
     </div>
     <!-- /.row -->
@@ -259,7 +281,7 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Blog kulinarny</p>
     </div>
     <!-- /.container -->
   </footer>
@@ -271,7 +293,8 @@
   <script src="js/login-page.js"></script>
   <script src="js/register.js"></script>
   <script src="js/new-recipe-page.js"></script>
-  <script src="vendor/unzip/zip.js"></script> 
+  <script src="vendor/unzip/jszip.js"></script>
+  <script src="js/post-page.js"></script>
 
 </body>
 

@@ -28,7 +28,7 @@ public class RecipeController {
     }
 
     @PostMapping()
-    public void createRecipe(@Valid @RequestPart Recipe recipe, @RequestPart("photo") MultipartFile photo){
+    public void createRecipe(@Valid @RequestPart Recipe recipe, @RequestPart(value = "photo", required = false) MultipartFile photo){
         System.out.println(photo);
         recipeService.createRecipe(recipe, photo);
     }

@@ -10,6 +10,7 @@ $(document).ready(()=>{
     logoutButton = $("#navigation-logout").detach();
     addRecipePage = $("#navigation-new-recipe").detach();
     navbar = $("#navbar-list");
+
 });
 
 
@@ -45,7 +46,9 @@ function logout() {
         type: "POST"
     }).done(()=>{
         logoutButton.detach();
+        addRecipePage.detach();
         navbar.append(loginButton);
+        returnHome();
     });
 
 }

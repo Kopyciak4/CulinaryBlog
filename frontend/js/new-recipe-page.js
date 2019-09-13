@@ -26,5 +26,9 @@ function addRecipe() {
         processData: false,
         contentType: false,
         data: formData
-    }) 
+    }).done(()=>{
+        returnHome();
+        fetchLastThreeAdded();
+    })
+    
 }

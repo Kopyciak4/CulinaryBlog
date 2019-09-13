@@ -13,7 +13,7 @@ public class RecipeRepositoryCustomImpl implements RecipeRepositoryCustom {
     private EntityManager em;
 
     public List<Recipe> findRecipiesByCriteriaSearch(RecipeSearchCriteria recipeSearchCriteria){
-        String sql = "SELECT d.id, d.type, d.main_ingredient, d.country, d.name, r.id, r.preparation_time, r.points, r.additional_info, r.level, r.ingredients, r.preparation, r.photo, r.video_link, r.insertion_date, r.dish_id FROM Recipe as r INNER JOIN Dish as d ON  dish_id = d.id";
+        String sql = "SELECT d.id, d.type, d.main_ingredient, d.country, d.name, r.id, r.preparation_time, r.points, r.additional_info, r.level, r.ingredients, r.preparation, r.photo, r.video_link, r.insertion_date, r.dish_id, r.user_login FROM Recipe as r INNER JOIN Dish as d ON  dish_id = d.id";
         String whereSql = "";
 
         if(recipeSearchCriteria.getCountry() != null && !recipeSearchCriteria.getCountry().isEmpty()) {

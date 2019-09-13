@@ -32,8 +32,10 @@ public class RecipeServiceImpl implements RecipeService {
     public void createRecipe(Recipe recipe,  MultipartFile photo){
         recipe.setInsertionDate(new Date());
         Recipe savedRecipe = recipeRepository.save(recipe);
-        savedRecipe.setPhoto(fileService.save(photo, savedRecipe.getId()));
-        recipeRepository.save(savedRecipe);
+        if (photo != null) {
+            savedRecipe.setPhoto(fileService.save(photo, savedRecipe.getId()));
+            recipeRepository.save(savedRecipe);
+        }
     }
 
     @Override
@@ -50,8 +52,8 @@ public class RecipeServiceImpl implements RecipeService {
                 searchedType = type;
             }
         }
-        return searchedType != null ? recipeRepository.findByDishTypeContainingOrDishMainIngredientContainingOrDishCountryContainingOrDishNameContaining(searchedType , query, query, query)
-                : recipeRepository.findByDishMainIngredientContainingOrDishCountryContainingOrDishNameContaining(query, query, query);
+        return searchedType != null ? recipeRepository.findByDishTypeContainingOrDishMainIngredientContainingOrDishCountryContainingOrDishNameContainingOrUserLoginContaining(searchedType , query, query, query, query)
+                : recipeRepository.findByDishMainIngredientContainingOrDishCountryContainingOrDishNameContainingOrUserLoginContaining(query, query, query, query);
     }
 
     @Override
@@ -76,6 +78,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getLastAddedRecipes(int quantity){
         System.out.println(quantity);
+        System.out.println("DATAAAAAA");
+        System.out.println(this.recipeRepository.findByOrderByInsertionDateDesc(PageRequest.of(0, quantity)).get(1).getInsertionDate());
         return this.recipeRepository.findByOrderByInsertionDateDesc(PageRequest.of(0, quantity));
     }
 
