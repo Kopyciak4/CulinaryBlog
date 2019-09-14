@@ -1,7 +1,7 @@
 let article;
 
 $(document).ready(() => {
-    article = $("#post-page");
+    article = $("#post-page").detach();
 });
 
 function goToPost(recipe, base64Data) {

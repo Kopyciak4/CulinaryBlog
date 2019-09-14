@@ -18,6 +18,7 @@ function register() {
         data : JSON.stringify({login: login, password: password}),
         contentType: 'application/json' 
      }).done(()=>{
+         toastr.success("User created");
          
      }).fail(() => {
         toastr.error('Duplicated user');
