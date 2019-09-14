@@ -183,6 +183,12 @@ function checkNumberRange(event, element) {
     }
 }
 
+function checkIfNumberKey(event) {
+    if (event.keyCode < 48 || event.keyCode > 57) {
+        event.preventDefault();
+    }
+}
+
 function runAdvancedSearch() {
     const advancedSearchForm = $("#advanced-search-box");
     let formData = new FormData(advancedSearchForm[0]);

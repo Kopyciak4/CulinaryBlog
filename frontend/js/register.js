@@ -11,7 +11,7 @@ function register() {
          password = registerFormData[0].value;
      }
 
-     console.log(login);
+
      $.ajax({
         url : 'http://localhost:8080/user/register',
         type : "POST",
@@ -19,5 +19,11 @@ function register() {
         contentType: 'application/json' 
      }).done(()=>{
          
-     })
+     }).fail(() => {
+        toastr.error('Duplicated user');
+    });
+}
+
+function disableRegisterButtonIfFormEmpty() {
+    registerPage.find('#register-button')[0].disabled = $("#register-form input").toArray().some(element => element.required && !element.value);
 }

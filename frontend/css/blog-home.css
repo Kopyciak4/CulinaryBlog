@@ -8,15 +8,22 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  position: absolute;
+  width: 100%;
+  overflow-y: scroll;
 }
+
 .container {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-#recipes-list-page {
+
+.recipes-list-page-content {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .formContent {
@@ -71,4 +78,30 @@ body {
 
 .search-button {
   margin-top: 5%;
+}
+
+.recipes-list-row {
+  min-width: 100%;
+  margin-bottom: auto;
+}
+
+@media (max-width: 408px) {
+  body {
+    width: auto;
+  }
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-recipe-form-page-content {
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
 }

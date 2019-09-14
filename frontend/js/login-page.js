@@ -34,9 +34,12 @@ function loginIntoApp() {
         },
         type: "GET"
     }).done(() => {
+        toastr.success('Logged in successfully')
         returnHome();
         loginButton.detach();
         navbar.prepend(addRecipePage).append(logoutButton);
+    }).fail(() => {
+        toastr.error('Incorrect login or password')
     });
 }
 

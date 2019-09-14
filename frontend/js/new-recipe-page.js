@@ -27,8 +27,25 @@ function addRecipe() {
         contentType: false,
         data: formData
     }).done(()=>{
+        toastr.success('Post created successfully')
         returnHome();
         fetchLastThreeAdded();
-    })
+    });
     
+}
+
+function disableNewRecipeButtonIfFormEmpty() {
+    newRecipePage.find('#new-recipe-button')[0].disabled = hasFormEmptyRequiredInputs();
+}
+
+function checkFileExtension(fileInput) {
+    const allowedExtensions = ['gif', 'jpg', 'jpeg', 'png', 'pjpeg'];
+    const dotIndex = fileInput.value.lastIndexOf('.');
+    const hasCorrectData = (!fileInput || dotIndex && allowedExtensions.some(extension => extension === fileInput.value.substring(dotIndex + 1)))
+        && !hasFormEmptyRequiredInputs();
+    newRecipePage.find('#new-recipe-button')[0].disabled = !hasCorrectData;
+}
+
+function hasFormEmptyRequiredInputs() {
+    return $("#new-recipe-form input, #new-recipe-form textarea").toArray().some(element => element.required && !element.value);
 }
